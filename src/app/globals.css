@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@theme {
+  /* Casa Cobalto — Lisbon azulejo: cobalt, tomato, butter, cream */
+  --color-cream: #fff4e4;
+  --color-paper: #fffaf2;
+  --color-cobalt: #2241c9;
+  --color-cobalt-deep: #172d8f;
+  --color-navy: #0e1740;
+  --color-navy-soft: #1d2b6b;
+  --color-tomato: #d0461f;
+  --color-butter: #ffd256;
+  --color-mute: #4e4c5c;
+  --color-ink: #15141c;
+
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-float: float 9s ease-in-out infinite;
+  --animate-float-slow: float 13s ease-in-out infinite;
+  --animate-scroll-cue: scroll-cue 2.4s var(--ease-luxe) infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    50% { transform: translate3d(0, -14px, 0) rotate(3deg); }
+  }
+  @keyframes scroll-cue {
+    0% { transform: scaleY(0); transform-origin: top; }
+    45% { transform: scaleY(1); transform-origin: top; }
+    55% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+}
+
+@theme inline {
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), Georgia, serif;
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  overflow-x: clip;
+}
+
+::selection { background: var(--color-butter); color: var(--color-ink); }
+
+:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; outline-color: var(--color-tomato); outline-width: 3px; }
+
+/* Grain overlay for an editorial, printed-paper feel. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Azulejo tiles: cobalt line-work with a tomato centre, as on Lisbon façades. */
+.azulejo {
+  background-color: var(--color-paper);
+  background-size: 88px 88px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88' viewBox='0 0 88 88'%3E%3Cg fill='none' stroke='%232241c9' stroke-width='2.2'%3E%3Ccircle cx='0' cy='0' r='24'/%3E%3Ccircle cx='88' cy='0' r='24'/%3E%3Ccircle cx='0' cy='88' r='24'/%3E%3Ccircle cx='88' cy='88' r='24'/%3E%3Ccircle cx='44' cy='44' r='15'/%3E%3Cpath d='M44 9 79 44 44 79 9 44Z'/%3E%3Cpath d='M44 0v9M44 79v9M0 44h9M79 44h9'/%3E%3C/g%3E%3Ccircle cx='44' cy='44' r='5.5' fill='%23d0461f'/%3E%3Cg fill='%23ffd256'%3E%3Ccircle cx='0' cy='0' r='7'/%3E%3Ccircle cx='88' cy='0' r='7'/%3E%3Ccircle cx='0' cy='88' r='7'/%3E%3Ccircle cx='88' cy='88' r='7'/%3E%3C/g%3E%3C/svg%3E");
+}
+/* Same tile, drawn in cream for use over cobalt. */
+.azulejo-light {
+  background-size: 88px 88px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88' viewBox='0 0 88 88'%3E%3Cg fill='none' stroke='%23fff4e4' stroke-opacity='.22' stroke-width='2'%3E%3Ccircle cx='0' cy='0' r='24'/%3E%3Ccircle cx='88' cy='0' r='24'/%3E%3Ccircle cx='0' cy='88' r='24'/%3E%3Ccircle cx='88' cy='88' r='24'/%3E%3Ccircle cx='44' cy='44' r='15'/%3E%3Cpath d='M44 9 79 44 44 79 9 44Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .motion-safe-only { display: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* Loader fallback: if scripts never run, the first-load loader still clears. */
+.loader-initial { animation: loader-fallback 0.5s ease 5s forwards; }
+@keyframes loader-fallback { to { opacity: 0; visibility: hidden; } }
